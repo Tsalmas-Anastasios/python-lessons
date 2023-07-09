@@ -1,0 +1,31 @@
+Λίστα:
+	Συλλογή δεδομένων.
+	π.χ. fruits = ["apple", "orange", "cherry"]
+		 type(fruits)
+		 
+		 # --> <class 'list'>
+		 
+	
+	υποστηρίζουν indexing (list_name[index])
+		Ξεκινάει από το 0:
+		-----------------
+		Πρώτο στοιχείο: 0
+		Τελευταίο στοιχείο: count - 1
+		
+
+Πλειάδες:
+	Συλλογή δεδομένων.
+	π.χ. fruits = ("apple", "orange", "cherry")
+		 type(fruits)
+	υποστηρίζουν indexing (tupple_name[index])
+		Ξεκινάει από το 0:
+		-----------------
+		Πρώτο στοιχείο: 0
+		Τελευταίο στοιχείο: count - 1
+		
+
+Πλειάδες:
+	Συλλογή δεδομένων.
+	π.χ. fruits = {"NAME1":"VALUE1", "NAME2":"VALUE2", "NAME3":"VALUE3"}
+		 type(fruits)
+	υποστηρίζουν indexing (tupple_name[NAME1])

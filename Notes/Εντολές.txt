@@ -1,0 +1,66 @@
+help()					Βοήθεια της Python
+exit()					Έξοδος από το περιβάλλον IDLE (Python) - CTRL + D
+q / quit				quit
+print()					Εκτύπωση του ορίσματος στην οθόνη
+#						Εισαγωγή σχολίου μίας γραμμής	-	Τα σχόλια είναι αναγκαία!!!
+str()					Μετατροπή ορίσματος σε συμβολοσειρά
+int()					Μετατροπή ορίσματος σε ακέραιο
+float()					Μετατροπή ορίσματος σε πραγματικό/κινητής υποδιαστολής
+type()					Επιστρέφει τον τύπο της μεταβλητής που υπάρχει ως όρισμα
+dict()					Δημιουργεί ένα λεξικό με βάσει τα ορίσματά της
+input()					Εισαγωγή δεδομένων από το πληκτρολόγιο καθώς εκτελείται το πρόγραμμα
+range(start, end, step)	Γεννήτρια σειριακών αριθμών (από start έως end με βήμα step)
+string.replace(string_to_be_replaced, string_to_replace_with)	Αντικαθιστά το string_to_be_replaced με το string_to_replace_with στο string
+
+Conditions:
+	- if...elif...else
+		- if
+		  if condition:
+		  		#do_something
+		  		...
+		
+		- if...else
+		  if condition:
+		  		#do_something
+		  		...
+		  else:
+		  		#do_something_else
+		  		...
+		  		
+		- if...elif...else
+		  if condition1:
+		  		#do_something_1
+		  		...
+		  elif condition2:
+		  		#do_something_2
+		  		...
+		  else:
+		  		#do_something_else
+		  		...
+
+
+
+Δήλωση μεταβλητών:
+	variable_name = value_for_the_variable
+	
+	- Δεν δηλώνεται ο τύπος της πριν να χρησιμοποιηθεί.
+	- Ο τύπος της μπορεί να μεταβάλεται κατά την εκτέλεση του προγράμματος
+	
+
+Στυλ κώδικα:
+	Η Python για να λειτουργήσει χρειάζεται να κάνουμε εσοχές σε περιπτώσεις που έχουμε κάποιο μπλοκ-εντολών.
+
+
+
+LIBRARIES (use 'import')
+
+	- this				The Zen of Python
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -1,0 +1,20 @@
+PYTHON
+
+Lesson 2
+----------------------------------------------------
+
+
+H python είναι διερμηνευόμενη γλώσσα, δηλαδή διαβάζεται σειρά-σειρά (γραμμή-γραμμή).
+H python είναι case-sensitive.
+
+Τύποι μεταβλητών:
+	int			ακέραιος
+	float		κινητής υποδιαστολής
+	double		πραγματικός αριθμός
+	string		συμβολοσειρά
+	
+
+Τρόποι ονοματοδωσίας μεταβλητών:
+	- camel case:	myVariableName
+	- Pacal case:	MyVariableName
+	- snake case:	my_variable_name
