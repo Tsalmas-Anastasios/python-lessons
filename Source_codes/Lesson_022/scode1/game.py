@@ -43,12 +43,18 @@
 # Παρακάτω φαίνεται ο κώδικας
 import pygame
 
+from models import GameObject
+from utils import load_sprite
+
 
 class SpaceRocks:
     def __init__(self):
         self._init_pygame()
         self.screen = pygame.display.set_mode((800, 600))
         self.background = load_sprite("space", False)
+        self.clock = pygame.time.Clock()
+        self.spaceship = GameObject((400, 300), load_sprite("spaceship"), (0, 0))
+        self.asteroid = GameObject((400, 300), load_sprite("asteroid"), (1, 0))
 
     def main_loop(self):
         while True:
@@ -68,11 +74,15 @@ class SpaceRocks:
                 quit()
 
     def _process_game_logic(self):
-        pass
+        self.spaceship.move()
+        self.asteroid.move()
 
     def _draw(self):
-        self.screen.fill((0, 0, 255))
+        self.screen.blit(self.background, (0, 0))
+        self.spaceship.draw(self.screen)
+        self.asteroid.draw(self.screen)
         pygame.display.flip()
+        self.clock.tick(60)
 
 
 # Σχολιασμός του παραπάνω κώδικα
@@ -390,3 +400,231 @@ class SpaceRocks:
 #   Αυτές οι συντεταγμένες μπορούν να δείχνουν μια θέση, αλλά μπορούν επίσης να αντιπροσωπεύουν κινηση
 #   ή επιτάχυνση προς μια δεδομένη κατεύθυνση. Τα διανυσματα μπορούν να προστεθούν, να αφαιρεθούν ή
 #   ακόμα και να πολλαπλασιαστούν για γρήγορη ενημέρωση της θέσης ενός sprite.
+#
+#
+# Λόγω της χρησιμότητας των διανυσμάτων στα παιχνίδια, το Pygame έχει ήδη μια κλάση για αυτά, τη
+# Vector2 στο module pygame.math.
+#
+# Αυτή η κλάση προσφέρει κάποιες πρόσθετες λειτουργίες, όπως τον υπολογισμό της απόστασης μεταξύ
+# των διανυσμάτων και την προσθήκη ή την αφαίρεση διανυσμάτων. Αυτά τα χαρακτηριστικά θα κάνουν τη λογική
+# του παιχνιδιού μας πολύ πιο ευκολη στην εφαρμογή.
+#
+# Ας δημιουργησουμε ένα νέο αρχείο που ονομάζεται models.py. Προς το παρόν, θα αποθηκεύσει την κλάση
+# GameObject, αλλά αργότερα θα προσθέσουμε κλάσεις για αστεροειδείς, σφαίρες και το διαστημόπλοιο.
+#
+#
+# Τροποποιούμε το συγκεκριμένο αρχείο από:
+# import pygame
+# class SpaceRocks:
+#     def __init__(self):
+#         self._init_pygame()
+#         self.screen = pygame.display.set_mode((800, 600))
+#         self.background = load_sprite("space", False)
+
+#     def main_loop(self):
+#         while True:
+#             self._handle_input()
+#             self._process_game_logic()
+#             self._draw()
+
+#     def _init_pygame(self):
+#         pygame.init()
+#         pygame.display.set_caption("Space Rocks")
+
+#     def _handle_input(self):
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT or (
+#                 event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+#             ):
+#                 quit()
+
+#     def _process_game_logic(self):
+#         pass
+
+#     def _draw(self):
+#         self.screen.fill((0, 0, 255))
+#         pygame.display.flip()
+#
+#
+# σε:
+# ---
+#
+# import pygame
+
+# from models import GameObject
+# from utils import load_sprite
+
+
+# class SpaceRocks:
+#     def __init__(self):
+#         self._init_pygame()
+#         self.screen = pygame.display.set_mode((800, 600))
+#         self.background = load_sprite("space", False)
+#         self.spaceship = GameObject((400, 300), load_sprite("spaceship"), (0, 0))
+#         self.asteroid = GameObject((400, 300), load_sprite("asteroid"), (1, 0))
+
+#     def main_loop(self):
+#         while True:
+#             self._handle_input()
+#             self._process_game_logic()
+#             self._draw()
+
+#     def _init_pygame(self):
+#         pygame.init()
+#         pygame.display.set_caption("Space Rocks")
+
+#     def _handle_input(self):
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT or (
+#                 event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+#             ):
+#                 quit()
+
+#     def _process_game_logic(self):
+#         self.spaceship.move()
+#         self.asteroid.move()
+
+#     def _draw(self):
+#         self.screen.blit(self.background, (0, 0))
+#         self.spaceship.draw(self.screen)
+#         self.asteroid.draw(self.screen)
+#
+#
+#
+# Και τα δύο αντικείμενα τοποθετούνται στη μέση της οθόνης, χρησιμοποιώντας τις συντεταγμένες
+# (400, 300). Η θέση και των δύο αντικειμένων θα ενημερώνεται σε κάθε καρέ χρησιμοποιώντας την
+# _process_game_logic() και θα σχεδιάζονται χρησιμοποιώντας την _draw().
+
+
+#
+#
+# Έλεγχος ταχύτητας
+# -----------------
+#
+# Τώρα που έχουμε κινούμενα αντικείμενα στην οθόνη, ήρθε η ώρα να σκεφτούμε πώς θα αποδώσει το
+# παιχνίδι μας σε διαφορετικά μηχανήματα νε διαφορετικούς επεξεργαστές. Μερικές φορές θα τρέχει πιο
+# γρήγορα και μερικές φορές πιο αργά.
+#
+# Εξαιτίας αυτού, οι αστεροειδείς (και οι σφαίρες) θα κινούνται με διαφορετική ταχύτητα, κάνοντας
+# το παιχνίδι άλλοτε ευκολότερο και άλλοτε πιο δύσκολο. Δεν είναι και που θέλουμε. Αυτό που θέλουμε
+# είναι το παιχνίδι μας να τρέχει με σταθερό αριθμό καρέ ανά δευτερόλεπτο (FPS).
+#
+# Ευτυχώς η Pygame μπορεί να το φροντίσει αυτό. Διαθέτει τη κλάση Pygame.time.Clock με μια μέθοδο
+# tick(). Αυτή η μέθοδος θα περιμένει τόσο ώστε να ταιριάζει με την επιθυμητή τιμή FPS, που μεταβι-
+# βάζεται ως όρισμα.
+#
+# Ενημερώνουμε το αρχείο από:
+# import pygame
+# class SpaceRocks:
+#     def __init__(self):
+#         self._init_pygame()
+#         self.screen = pygame.display.set_mode((800, 600))
+#         self.background = load_sprite("space", False)
+
+#     def main_loop(self):
+#         while True:
+#             self._handle_input()
+#             self._process_game_logic()
+#             self._draw()
+
+#     def _init_pygame(self):
+#         pygame.init()
+#         pygame.display.set_caption("Space Rocks")
+
+#     def _handle_input(self):
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT or (
+#                 event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+#             ):
+#                 quit()
+
+#     def _process_game_logic(self):
+#         pass
+
+#     def _draw(self):
+#         self.screen.fill((0, 0, 255))
+#         pygame.display.flip()
+#
+#
+# σε:
+# ---
+#
+# import pygame
+
+# from models import GameObject
+# from utils import load_sprite
+
+
+# class SpaceRocks:
+#     def __init__(self):
+#         self._init_pygame()
+#         self.screen = pygame.display.set_mode((800, 600))
+#         self.background = load_sprite("space", False)
+#         self.clock = pygame.time.Clock()
+#         self.spaceship = GameObject((400, 300), load_sprite("spaceship"), (0, 0))
+#         self.asteroid = GameObject((400, 300), load_sprite("asteroid"), (1, 0))
+
+#     def main_loop(self):
+#         while True:
+#             self._handle_input()
+#             self._process_game_logic()
+#             self._draw()
+
+#     def _init_pygame(self):
+#         pygame.init()
+#         pygame.display.set_caption("Space Rocks")
+
+#     def _handle_input(self):
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT or (
+#                 event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+#             ):
+#                 quit()
+
+#     def _process_game_logic(self):
+#         self.spaceship.move()
+#         self.asteroid.move()
+
+#     def _draw(self):
+#         self.screen.blit(self.background, (0, 0))
+#         self.spaceship.draw(self.screen)
+#         self.asteroid.draw(self.screen)
+#         pygame.display.flip()
+#         self.clock.tick(60)
+#
+#
+#
+# Αν εκτελέσουμε το παιχνίδι μας τώρα, ο αστεροειδείς μπορεί να κινηθεί με διαφορετική
+# ταχύτητα από αυτή που είχε αρχικά. Ωστόσο, μπορούμε τώρα να είμαστε σίγουροι ότι αυτή η ταχύτητα
+# θα παραμείνει ίδια, ακόμη και σε υπολογιστές με εξαιρετικά γρήγορους επεξεργαστές.
+#
+# Αυτό συμβαίνει επειδή το παιχνίδι μας θα τρέει πάντα στα 60 FPS. Μπορούμε επίσης να πειραματιστούμε
+# με διάφορες τιμές που μπορούμε να βάλουμε στην tick() για να δούμε την διαφορά.
+#
+
+
+#
+# Το Διαστημόπλοιό μας
+# --------------------
+#
+# Σε αυτό το σημείο, θα πρέπει να έχουμε μια γενική κλάση για συρόμενα και κινούμενα αντικείμενα στο
+# παιχνίδι μας. Στο τέλος αυτού του βήματος θα τη χρησιμοποιήσουμε για να δημιουργήσουμε ένα
+# ελεγχόμενο διαστημόπλοιο.
+#
+# Η κλάση που δημιουργήσαμε στο προηγούμενο βήμα, η GameObject, έχει κάποια γενική λογική που μορεί
+# να χρησιμοποιηθεί ξανά από διαφορετικά αντικείμενα του παιχνιδιού. Ωστόσο, κάθε αντικείμενο του
+# παιχνιδιού θα εφαρμόσει επίσης τη δική του λογική. Το διαστημόπλοιο, για παράδειγμα, αναμένεται
+# να περιστρέφεται και να επιταχύνει.
+#
+#
+# Δημιουργία κλασης:
+# Η εικόνα του διαστημόπλοιου βρίσκεται ήδη στα assets. Ωστόσο, νωρίτερα χρησιμοποιήθηκε το κύριο
+# αρχείο του παιχνιδιού και τώρα πρέπει να το φορτώσουμε σε ένα απο τα models. Για να μπορέσουμε να
+# το κάνουμε αυτό θα μεταβούμε στο models.py.
+#
+#
+#################
+#
+#
+#
+# Τα υπόλοιπα, υπάρχουν στα notes στους αντίστοιχους φακέλους
