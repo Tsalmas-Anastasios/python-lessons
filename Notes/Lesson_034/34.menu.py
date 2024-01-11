@@ -1,0 +1,35 @@
+from tkinter import *
+def donothing():
+   filewin = Toplevel(root)
+   button = Button(filewin, text="Do nothing button")
+   button.pack()
+   
+root = Tk()
+menubar = Menu(root)
+filemenu = Menu(menubar, tearoff = 0)
+filemenu.add_command(label = "Νέο", command = donothing)
+filemenu.add_command(label = "Άνοιγμα", command = donothing)
+filemenu.add_command(label = "Αποθήκευση", command = donothing)
+filemenu.add_command(label = "Αποθήκευση ως...", command = donothing)
+filemenu.add_command(label = "Κλείσιμο", command = donothing)
+filemenu.add_separator()
+filemenu.add_command(label = "Έξοδος", command = root.quit)
+menubar.add_cascade(label = "Αρχείο", menu = filemenu)
+
+editmenu = Menu(menubar, tearoff=0)
+editmenu.add_command(label = "Αναίρεση", command = donothing)
+editmenu.add_separator()
+editmenu.add_command(label = "Αποκοπή", command = donothing)
+editmenu.add_command(label = "Αντιγραφή", command = donothing)
+editmenu.add_command(label = "Επικόλληση", command = donothing)
+editmenu.add_command(label = "Διαγραφή", command = donothing)
+editmenu.add_command(label = "Επιλογή όλων", command = donothing)
+menubar.add_cascade(label = "Επεξεργασία", menu = editmenu)
+
+helpmenu = Menu(menubar, tearoff=0)
+helpmenu.add_command(label = "Αρχείο Οδηγιών", command = donothing)
+helpmenu.add_command(label = "Περί...", command = donothing)
+menubar.add_cascade(label = "Βοήθεια", menu = helpmenu)
+
+root.config(menu = menubar)
+root.mainloop()
